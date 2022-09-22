@@ -3,7 +3,7 @@ const { Photo } = require('../type');
 const medicineSchema = new Schema(
   {
     name: {
-      type: string,
+      type: String,
       required: true,
     },
     prices: {
@@ -15,7 +15,7 @@ const medicineSchema = new Schema(
       required: true,
     },
     description: {
-      type: true,
+      type: String,
       required: true,
     },
   },
