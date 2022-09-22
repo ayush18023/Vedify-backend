@@ -20,7 +20,7 @@ const os = require('os');
 
 const app = require('./app');
 
-const port = process.env.PORT_CLIENT || 3000;
+const port = process.env.PORT_CLIENT || 4000;
 
 process.env.UV_THREADPOOL_SIZE = os.cpus().length;
 
