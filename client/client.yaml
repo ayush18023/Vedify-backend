@@ -1,0 +1,336 @@
+swagger: '2.0'
+info:
+  title: Ayurvedic App
+  description: This is official documentation for Ayurvedic backend App
+  version: 1.0
+  contact:
+    email: ayurvedic@gmail.com
+    #  subject to change
+    servers:
+      -url: 'http://localhost:9000'
+      description: "This is the local server to work upon"
+      -url: "https://pikmiClient.herokuapp.com/" 
+      #  subject to change
+      description: "This is the officially hosted site"
+
+schemes: [http, https]
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: First step to start app. Here you have to enter the **firebase token**. Go to the **firebase SDK** and call create user. After that choose the various methods through which you actually want to connect(preferably Login with ID and Password).. After that choose the **get IDToken** and paste it here. If you are at the top **(Authorize)** button, it can be used throughout all the routes below and you dont need to enter it specifically through all the routes one by one, else if you are on one **specific route** you can access that specific route **only**. 
+    
+paths:
+  # Register the Client
+  /api/v1/auth/register:
+    post:
+      security:
+        - Bearer: []
+      summary:  Register the client so that it can be saved in the database.
+      tags:
+        - Client
+      produces: 
+        - application/json
+      consumes: 
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                default: "Haspr Client" 
+              email: 
+                type: email
+                default: "abcd@gmail.com"
+              phone: 
+                type: string
+                default: "9999999999"
+              photo:
+                type: string
+                default: "# Here comes the string of client photo"
+      responses: 
+       200:
+        description: Client registered successfully
+       401:
+        description: Please login to continue.
+
+  # Get the self details
+  /api/v1/auth/whoami:
+    post:
+      security:
+        - Bearer: []
+      summary:  Get the self details for the client (for token you have passed). It can be called throughout the app while logged in to get the self details.
+      tags:
+        - Client
+      produces: 
+        - application/json
+      consumes: 
+        - application/json
+      responses: 
+       200:
+        description: Hello, you are ${req.client.name}
+       401:
+        description: Please login to continue.
+       404:
+        description: Please try to register again
+
+  # # Register an Operator
+  # /api/v1/operator:
+  #   post:
+  #     security:
+  #       - Bearer: []
+  #     summary:  Register a new Operator via the logged in Client
+  #     tags:
+  #       - Client-Operator
+  #     produces: 
+  #       - application/json
+  #     consumes: 
+  #       - application/json  
+  #     parameters:
+  #       - in: body
+  #         name: user
+  #         schema:
+  #           type: object
+  #           properties:
+  #             email: 
+  #               type: email
+  #               default: "haspr@gmail.com"
+  #             name:
+  #               type: string
+  #               default: "Haspr Client" 
+  #             phoneNo:
+  #               type: string
+  #               default: "9999999999" 
+  #             photo:
+  #               type: string
+  #               default: "# Here comes the photo Url"         
+  #             drivingLicense:
+  #               type: string
+  #               defalt: "# Here comes the DL's Url"
+  #             pin:
+  #               type: string
+  #               default: "400053"
+              
+  #     responses: 
+  #      201:
+  #       description: Operator {name} registered successfully
+  #      400:
+  #       description: Some error occured in creating the operator
+  #      401:
+  #       description: Please login to continue.
+  #      500:
+  #       description: Internal Server Error
+
+  #    # GET Operator created by this Client
+  #   get:
+  #     security:
+  #       - Bearer: []
+  #     summary:  Get the details of all the Operators that have been registered through this client
+  #     tags:
+  #       - Client-Operator
+  #     produces: 
+  #       - application/json
+  #     consumes: 
+  #       - application/json  
+                    
+  #     responses: 
+  #      201:
+  #       description: ${operators.length} operators found
+  #      400:
+  #       description: Something wemt wrong while trying to fetch operators
+  #      401:
+  #       description: Please login to continue.
+    
+  # # Get an Operator with its ID
+  # /api/v1/operator/{:id}:
+  #   get:
+  #     security:
+  #       - Bearer: []
+  #     summary:  To get a specific registered operator by client
+  #     tags:
+  #       - Client-Operator
+  #     produces: 
+  #       - application/json
+  #     consumes: 
+  #       - application/json  
+  #     parameters:
+  #     - name: :id
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string     
+  #     responses: 
+  #      201:
+  #       description: Operator ${operator.name} found
+  #      401:
+  #       description: Please login to continue.
+  #      404:
+  #       description: Operator not found
+
+  # # Delete an operator by his Id registered by Client
+  #   delete:
+  #     security:
+  #       - Bearer: []
+  #     summary:  To delete a specific registered operator by client
+  #     tags:
+  #       - Client-Operator
+  #     produces: 
+  #       - application/json
+  #     consumes: 
+  #       - application/json  
+  #     parameters:
+  #     - name: :id
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string     
+  #     responses: 
+  #      201:
+  #       description: Operator ${operator.name} removed successfully
+  #      401:
+  #       description: Please login to continue.
+  #      404:
+  #       description: Operator not found
+
+  # # Register a Vehicle
+  # /api/v1/vehicle:
+  #   post:
+  #     security:
+  #       - Bearer: []
+  #     summary:  To register a Vehicle
+  #     tags:
+  #       - Client-Vehicle
+  #     produces: 
+  #       - application/json
+  #     consumes: 
+  #       - application/json  
+  #     parameters:
+  #       - in: body
+  #         name: user
+  #         schema:
+  #           type: object
+  #           properties:
+  #             number: 
+  #               type: number
+  #               default: "7777777777"
+  #             capacity:
+  #               type: number
+  #               default: "5" 
+  #             RCNumber:
+  #               type: string
+  #               default: "http//" 
+  #     responses: 
+  #      201:
+  #       description: Something went wrong with Add Vehicle
+  #      400:
+  #       description: Some error occured in creating the operator
+  #      401:
+  #       description: Please login to continue.
+
+  # # GET Vehicles registered by this Client
+  #   get:
+  #     security:
+  #       - Bearer: []
+  #     summary:  To get all vehicles registered by this Client
+  #     tags:
+  #       - Client-Vehicle
+  #     produces: 
+  #       - application/json
+  #     consumes: 
+  #       - application/json         
+  #     responses: 
+  #      201:
+  #       description: ${operators.length} operators found
+  #      400:
+  #       description: Something wemt wrong while trying to fetch operators
+  #      401:
+  #       description: Please login to continue.
+
+  # # Get a Vehicle with its ID
+  # /api/v1/vehicle/{:id}: 
+  #   get:
+  #     security:
+  #       - Bearer: []
+  #     summary:  To get a specific vehicle operator by client
+  #     tags:
+  #       - Client-Vehicle
+  #     produces: 
+  #       - application/json
+  #     consumes: 
+  #       - application/json  
+  #     parameters:
+  #     - name: :id
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string     
+  #     responses: 
+  #      200:
+  #       description: Vehicle ${vehicle._id} found
+  #      401:
+  #       description: Please login to continue.
+  #      404:
+  #       description: Requested vehicle does not exist!
+
+  # # Delete an vehicle by his Id registered by Client
+  #   delete:
+  #     security:
+  #       - Bearer: []
+  #     summary:  To delete a specific registered vehicle by client
+  #     tags:
+  #       - Client-Vehicle
+  #     produces: 
+  #       - application/json
+  #     consumes: 
+  #       - application/json  
+  #     parameters:
+  #     - name: :id
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string     
+  #     responses: 
+  #      200:
+  #       description: Vehicle ${vehicle._id} removed successfully
+  #      401:
+  #       description: Please login to continue.
+  #      404:
+  #       description: Vehicle not found
+
+  # # Create a route
+  # /api/v1/route:
+  #   post:
+  #     security:
+  #       - Bearer: []
+  #     summary:  To Create a Route
+  #     tags:
+  #       - Client->Route-Vehicle
+  #     produces: 
+  #       - application/json
+  #     consumes: 
+  #       - application/json  
+  #     parameters:
+  #       - in: body
+  #         name: user
+  #         schema:
+  #           type: object
+  #           properties:
+  #             vehicle: 
+  #               type: Id
+  #               default: "# Here comes the vehicle Id"
+  #             stops:
+  #               type: array
+  #               default: "# Here comes the array of latitude and longitude eg:-[{coordinates: [23 / 3445, 34.45],place:45645,id: '34645457564765',}]" 
+  #     responses: 
+  #      201:
+  #       description: Route with id ${route._id} created successfully
+  #      400:
+  #       description: Something went wrong while creating a Route!!
+  #      401:
+  #       description: Please login to continue.
+  #      404:
+  #       description: Vehicle not found
