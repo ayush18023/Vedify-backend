@@ -11,7 +11,8 @@ const clientSchema = new Schema(
       required: true,
     },
     email: {
-      type: Photo,
+      type: String,
+      required: true,
     },
     photos: [
       {

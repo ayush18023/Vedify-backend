@@ -1,5 +1,5 @@
 const { model } = require('mongoose');
-const clientSchema = require('../schemas/medicines.schema');
+const clientSchema = require('../schemas/client.schema.js');
 
 const clientModel = model('client', clientSchema);
 

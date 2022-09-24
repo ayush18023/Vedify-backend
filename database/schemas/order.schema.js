@@ -3,14 +3,14 @@ const { Photo } = require('../type');
 const orderSchema = new Schema(
   {
     orderPlacer: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
       ref: 'client',
     },
     medicines: [
       {
         medicineRequired: {
-          type: mongoose.Schema.Types.ObjectId,
+          type: Schema.Types.ObjectId,
           required: true,
           ref: 'medicines',
         },
