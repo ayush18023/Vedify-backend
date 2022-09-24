@@ -78,6 +78,146 @@ paths:
        404:
         description: Please try to register again
 
+  # Add a Medicine 
+  /api/v1/medicine:
+    post:
+      security:
+        - Bearer: []
+      summary: Create a new medicine that can be used to cure various diseases.
+      tags:
+        - Medicine
+      produces: 
+        - application/json
+      consumes: 
+        - application/json
+      responses: 
+       200:
+        description: medicines created
+       401:
+        description: Please login to continue.
+       404:
+        description: Please try to register again
+      
+  # Read all medicnes 
+    get:
+      security:
+        - Bearer: []
+      summary: Read all the medicines that are present in the database.
+      tags:
+        - Medicine
+      produces: 
+        - application/json
+      consumes: 
+        - application/json
+      responses: 
+       200:
+        description: medicines found
+       401:
+        description: Please login to continue.
+       404:
+        description: Please try to register again
+
+  # Update medicines(only specific fields)
+  /api/v1/medicine/:id :
+    put:
+      security:
+        - Bearer: []
+      summary: Update price || description || photo of the particular medicine.
+      tags:
+        - Medicine
+      produces: 
+        - application/json
+      consumes: 
+        - application/json
+      parameters:
+      - name: :id
+        in: path
+        required: true
+        schema:
+          type: string  
+      responses: 
+       200:
+        description: Medincine updated sucessfully
+       401:
+        description: Please login to continue.
+       404:
+        description: Please try to register again
+
+  # Read a single medicine
+    get:
+      security:
+        - Bearer: []
+      summary: Get the specifications of a particular medicine
+      tags:
+        - Medicine
+      produces: 
+        - application/json
+      consumes: 
+        - application/json
+      parameters:
+      - name: :id
+        in: path
+        required: true
+        schema:
+          type: string  
+      responses: 
+       200:
+        description: Medicine {:id} found
+       401:
+        description: Please login to continue.
+       404:
+        description: Please try to register again
+
+  # delete medicine
+    delete:
+      security:
+        - Bearer: []
+      summary: Delete the medicine if its no longer under production
+      tags:
+        - Medicine
+      produces: 
+        - application/json
+      consumes: 
+        - application/json
+      parameters:
+      - name: :id
+        in: path
+        required: true
+        schema:
+          type: string  
+      responses: 
+       200:
+        description: Medicine {:id} removed successfully
+       401:
+        description: Please login to continue.
+       404:
+        description: Please try to register again
+
+  # Find medicine by disease type
+    get:
+      security:
+        - Bearer: []
+      summary: Get the list of all the medicines that can be suitable for a specific kind of disease
+      tags:
+        - Medicine
+      produces: 
+        - application/json
+      consumes: 
+        - application/json
+      parameters:
+      - name: :id
+        in: path
+        required: true
+        schema:
+          type: string  
+      responses: 
+       200:
+        description: Heres the list of all the medicines 
+       401:
+        description: Please login to continue.
+       404:
+        description: Please try to register again
+        
   # # Register an Operator
   # /api/v1/operator:
   #   post:

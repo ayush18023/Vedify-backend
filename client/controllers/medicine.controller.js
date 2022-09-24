@@ -7,24 +7,30 @@ const mongoose = require('mongoose');
 const medicine = new CRUD(Medicine, 'client');
 
 module.exports.create = catcher(async (req, res, next) => {
-  const { name, price, photo, description } = req.body;
+  const { name, price, photo, description, disease } = req.body;
   id = req.ctx._id;
   const response = await medicine.create(
-    { name, price, photo, description },
+    { name, price, photo, description, disease },
     id
   );
   res.status(201).json(response);
 });
 
 module.exports.read = catcher(async (req, res, next) => {
-  const result = await Medicine.read(req.query);
-
+  const result = await medicine.read(req.query);
   res.status(200).json({
-    status: 'success',
-    data: result,
+    result,
   });
 });
 
+module.exports.disease = catcher(async (req, res, next) => {
+  const { disease } = req.body;
+  const result = await Medicine.find({ disease: disease });
+  res.status(200).json({
+    success: true,
+    result,
+  });
+});
 // module.exports.read = catcher(async (req, res, next) => {
 //   const vehicles = await Vehicle.find({ clientId: req.client._id });
 
@@ -64,19 +70,40 @@ module.exports.readById = catcher(async (req, res, next) => {
   });
 });
 
+module.exports.update = catcher(async (req, res, next) => {
+  const { id } = req.params;
+  const medicine = await Medicine.findOne({ _id: id });
+  const { price, description, photo } = req.body;
+  const updateData = {
+    price,
+    description,
+    photo,
+  };
+  await medicine.updateOne({ $set: updateData }, { omitUndefined: 1 });
+  if (!medicine) {
+    res.status(404).json({
+      success: false,
+      message: 'Medicine not found',
+    });
+  }
+  res.status(200).json({
+    success: true,
+    message: 'Medincine updated sucessfully',
+  });
+});
+
 module.exports.remove = catcher(async (req, res, next) => {
   const { id } = req.params;
 
   const medicine = await Medicine.findOne({
     _id: id,
-    clientId: req.client._id,
   });
 
   if (!medicine) {
     return next(new _Error('Medicine not found', 404));
   }
 
-  await Medicine.remove();
+  await Medicine.remove(medicine);
 
   res.status(200).json({
     status: 'success',

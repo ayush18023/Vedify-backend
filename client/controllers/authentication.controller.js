@@ -16,7 +16,7 @@ module.exports.register = catcher(async (req, res, next) => {
 
   await admin.auth().updateUser(identity.uid, {
     displayName: name,
-    phoneNumber: '+91' + phoneNo,
+    phoneNumber: phoneNo,
     photoURL:
       photo ||
       'https://cdn-icons.flaticon.com/png/512/2202/premium/2202112.png?token=exp=1659617314~hmac=f7cfe60919c3726ee8905b15a2790c8f',
