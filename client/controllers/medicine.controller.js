@@ -7,10 +7,10 @@ const mongoose = require('mongoose');
 const medicine = new CRUD(Medicine, 'client');
 
 module.exports.create = catcher(async (req, res, next) => {
-  const { name, price, photo, description, disease } = req.body;
+  const { name, price, photo, description, disease, ingredients } = req.body;
   id = req.ctx._id;
   const response = await medicine.create(
-    { name, price, photo, description, disease },
+    { name, price, photo, description, disease, ingredients },
     id
   );
   res.status(201).json(response);
@@ -28,6 +28,7 @@ module.exports.disease = catcher(async (req, res, next) => {
   const result = await Medicine.find({ disease: disease });
   res.status(200).json({
     success: true,
+    message: 'Heres the list of all the medicines ',
     result,
   });
 });
@@ -73,11 +74,13 @@ module.exports.readById = catcher(async (req, res, next) => {
 module.exports.update = catcher(async (req, res, next) => {
   const { id } = req.params;
   const medicine = await Medicine.findOne({ _id: id });
-  const { price, description, photo } = req.body;
+  const { price, description, photo, disease, ingredients } = req.body;
   const updateData = {
     price,
     description,
     photo,
+    disease,
+    ingredients,
   };
   await medicine.updateOne({ $set: updateData }, { omitUndefined: 1 });
   if (!medicine) {

@@ -2,7 +2,7 @@ const { Schema } = require('mongoose');
 const { Photo } = require('../type');
 const orderSchema = new Schema(
   {
-    orderPlacer: {
+    client: {
       type: Schema.Types.ObjectId,
       required: true,
       ref: 'client',

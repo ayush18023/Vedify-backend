@@ -11,14 +11,15 @@ const medicineSchema = new Schema(
       required: true,
     },
     photo: {
-      type: Photo,
-      // required: true,
+      type: String,
+      required: true,
     },
     description: {
       type: String,
       required: true,
     },
     disease: [{ type: String, required: true }],
+    ingredients: [{ type: String, required: true }],
   },
   { timestamps: true }
 );
