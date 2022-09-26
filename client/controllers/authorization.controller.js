@@ -33,6 +33,12 @@ module.exports.verify = catcher(async (req, res, next) => {
   next();
 });
 
+module.exports.isAdmin = catcher(async (req, res, next) => {
+  if (req.ctx.isAdmin !== true) {
+    return next(new _Error(('You Do not have the required privledges', 403)));
+  }
+  next();
+});
 module.exports.dummy_verify = catcher(async (req, res, next) => {
   req.ctx = {
     _id: 'test',

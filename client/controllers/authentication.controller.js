@@ -4,6 +4,7 @@ const admin = require('../../firebase/index');
 
 module.exports.register = catcher(async (req, res, next) => {
   const { name, email, phoneNo, photo } = req.body;
+  console.log(phoneNo);
   const { authorization } = req.headers || '';
 
   const identity = await admin.auth().verifyIdToken(authorization);
@@ -13,14 +14,20 @@ module.exports.register = catcher(async (req, res, next) => {
       new Error('Please signup in firebase before registration.', 401)
     );
   // console.log('+91' + phone);
-
-  await admin.auth().updateUser(identity.uid, {
-    displayName: name,
-    phoneNumber: phoneNo,
-    photoURL:
-      photo ||
-      'https://cdn-icons.flaticon.com/png/512/2202/premium/2202112.png?token=exp=1659617314~hmac=f7cfe60919c3726ee8905b15a2790c8f',
-  });
+  phoneNo == undefined
+    ? await admin.auth().updateUser(identity.uid, {
+        displayName: name,
+        phoneNumber: phoneNo,
+        photoURL:
+          photo ||
+          'https://cdn-icons.flaticon.com/png/512/2202/premium/2202112.png?token=exp=1659617314~hmac=f7cfe60919c3726ee8905b15a2790c8f',
+      })
+    : await admin.auth().updateUser(identity.uid, {
+        displayName: name,
+        photoURL:
+          photo ||
+          'https://cdn-icons.flaticon.com/png/512/2202/premium/2202112.png?token=exp=1659617314~hmac=f7cfe60919c3726ee8905b15a2790c8f',
+      });
 
   await admin.auth().setCustomUserClaims(identity.uid, {
     type: 'CLIENT',

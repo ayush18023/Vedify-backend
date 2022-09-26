@@ -20,6 +20,23 @@ const medicineSchema = new Schema(
     },
     disease: [{ type: String, required: true }],
     ingredients: [{ type: String, required: true }],
+    review: [
+      {
+        client: {
+          type: Schema.Types.ObjectId,
+          ref: 'client',
+        },
+        user_name: String,
+        experience: String,
+        feedback: String,
+        star: { type: Number, required: true },
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+    avg_rating: { type: Number },
   },
   { timestamps: true }
 );

@@ -2,6 +2,7 @@ const express = require('express');
 const {
   verify,
   dummy_verify,
+  isAdmin,
 } = require('../controllers/authorization.controller');
 const {
   create,
@@ -14,6 +15,7 @@ const {
 const router = express.Router();
 
 router.use(verify);
+router.use(isAdmin);
 // router.use(dummy_verify);
 
 router.route('/').post(create).get(read); // api/v1/schedule

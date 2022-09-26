@@ -2,6 +2,7 @@ const express = require('express');
 const {
   verify,
   dummy_verify,
+  isAdmin,
 } = require('../controllers/authorization.controller');
 const {
   create,
@@ -10,15 +11,18 @@ const {
   read,
   readById,
   disease,
+  addReview,
 } = require('../controllers/medicine.controller');
 
 const router = express.Router();
 
+router.route('/addReview/:id').post(addReview);
 router.route('/disease').get(disease);
-router.route('/').get(read);
+router.route('/').get(read).post(create);
 router.route('/:id').get(readById); // api/v1/medicine/634635687367
 
 router.use(verify);
+router.use(isAdmin);
 // router.use(dummy_verify);
 router.route('/').post(create); // api/v1/medicine
 

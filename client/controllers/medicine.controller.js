@@ -32,22 +32,6 @@ module.exports.disease = catcher(async (req, res, next) => {
     result,
   });
 });
-// module.exports.read = catcher(async (req, res, next) => {
-//   const vehicles = await Vehicle.find({ clientId: req.client._id });
-
-//   if (!vehicles) {
-//     res.status(200).json({
-//       status: 'success',
-//       message: `You do not have any registered vehicles . `,
-//     });
-//   }
-
-//   res.status(200).json({
-//     status: 'success',
-//     message: `You have ${vehicles.length} registered vehicles . `,
-//     data: vehicles,
-//   });
-// });
 
 module.exports.readById = catcher(async (req, res, next) => {
   const { id } = req.params;
@@ -82,13 +66,13 @@ module.exports.update = catcher(async (req, res, next) => {
     disease,
     ingredients,
   };
-  await medicine.updateOne({ $set: updateData }, { omitUndefined: 1 });
   if (!medicine) {
     res.status(404).json({
       success: false,
       message: 'Medicine not found',
     });
   }
+  await medicine.updateOne({ $set: updateData }, { omitUndefined: 1 });
   res.status(200).json({
     success: true,
     message: 'Medincine updated sucessfully',
@@ -111,5 +95,32 @@ module.exports.remove = catcher(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     message: `Medicine ${medicine._id} removed successfully`,
+  });
+});
+
+module.exports.addReview = catcher(async (req, res, next) => {
+  const { id } = req.params;
+  const { client, user_name, experience, feedback, star } = req.body;
+  const medicine = await Medicine.findOne({
+    _id: id,
+  });
+  const review = { client, user_name, experience, feedback, star };
+  if (!medicine) {
+    return next(new _Error('Medicine not found', 404));
+  }
+  await medicine.review.push(review);
+  medicine.save();
+  console.log();
+  const updatedCurrentRating = await Medicine.findOneAndUpdate(
+    { _id: id },
+    [{ $set: { avg_rating: { $avg: `$review.star` } } }],
+    {
+      new: true,
+      useFindAndModify: true,
+    }
+  );
+  res.status(201).json({
+    success: true,
+    message: `Review added successfully `,
   });
 });

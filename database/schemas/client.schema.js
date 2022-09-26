@@ -8,11 +8,15 @@ const clientSchema = new Schema(
     },
     phoneNo: {
       type: Number,
-      required: true,
+      // required: true,
     },
     email: {
       type: String,
       required: true,
+    },
+    isAdmin: {
+      type: Boolean,
+      defalut: false,
     },
     photos: [
       {
