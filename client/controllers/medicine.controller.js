@@ -86,11 +86,13 @@ module.exports.remove = catcher(async (req, res, next) => {
     _id: id,
   });
 
+  console.log(medicine);
+
   if (!medicine) {
     return next(new _Error('Medicine not found', 404));
   }
 
-  await Medicine.remove(medicine);
+  await Medicine.deleteOne({ _id: id });
 
   res.status(200).json({
     status: 'success',

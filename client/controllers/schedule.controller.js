@@ -100,7 +100,7 @@ module.exports.remove = catcher(async (req, res, next) => {
     return next(new _Error('Schedule not found', 404));
   }
 
-  await Schedule.remove(newSched);
+  await Schedule.deleteOne({ _id: id });
 
   res.status(200).json({
     status: 'success',
