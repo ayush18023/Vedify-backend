@@ -3,7 +3,7 @@ const Medicine = require('../../database/models/medicines.model.js');
 const _Error = require('../../lib/utils/_error');
 const CRUD = require('../../lib/handlers/crud.handler');
 const mongoose = require('mongoose');
-
+console.log(Medicine);
 const medicine = new CRUD(Medicine, 'client');
 
 module.exports.create = catcher(async (req, res, next) => {
@@ -82,16 +82,15 @@ module.exports.update = catcher(async (req, res, next) => {
 module.exports.remove = catcher(async (req, res, next) => {
   const { id } = req.params;
 
-  const medicine = await Medicine.findOne({
+  const thisMedicine = await Medicine.findOne({
     _id: id,
   });
 
-  console.log(medicine);
-
-  if (!medicine) {
+  if (!thisMedicine) {
     return next(new _Error('Medicine not found', 404));
   }
 
+  console.log(thisMedicine);
   await Medicine.deleteOne({ _id: id });
 
   res.status(200).json({
@@ -103,15 +102,15 @@ module.exports.remove = catcher(async (req, res, next) => {
 module.exports.addReview = catcher(async (req, res, next) => {
   const { id } = req.params;
   const { client, user_name, experience, feedback, star } = req.body;
-  const medicine = await Medicine.findOne({
+  const thisMedicine = await Medicine.findOne({
     _id: id,
   });
   const review = { client, user_name, experience, feedback, star };
-  if (!medicine) {
+  if (!thisMedicine) {
     return next(new _Error('Medicine not found', 404));
   }
-  await medicine.review.push(review);
-  medicine.save();
+  await thisMedicine.review.push(review);
+  thisMedicine.save();
   console.log();
   const updatedCurrentRating = await Medicine.findOneAndUpdate(
     { _id: id },
