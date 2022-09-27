@@ -1,7 +1,7 @@
 const catcher = require('../../lib/utils/catcher');
 const Client = require('../../database/models/client.model.js');
 const admin = require('../../firebase/index');
-const { userSignUp } = require('../mailing/gmail');
+// const { userSignUp } = require('../mailing/gmail');
 require('dotenv').config({
   path: '../.env',
 });

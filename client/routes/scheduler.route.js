@@ -14,9 +14,9 @@ const {
 
 const router = express.Router();
 
+router.route('/').get(read); // api/v1/schedule/
 router.use(verify);
 router.route('/:id').put(update); // api/v1/schedule/:id
-router.route('/').get(read); // api/v1/schedule/
 router.use(isAdmin);
 // router.use(dummy_verify);
 
