@@ -67,3 +67,22 @@ module.exports.readById = catcher(async (req, res, next) => {
     data: orders,
   });
 });
+
+module.exports.razorpay = catcher(async (req, res) => {
+  console.log(req.body);
+  const amount = req.body.totalcost;
+  const currency = 'INR';
+  const options = {
+    amount: amount * 100,
+    currency,
+    receipt: shortid.generate(),
+  };
+  console.log(options.receipt);
+  const response = await razorpay.orders.create(options);
+  console.log(response);
+  res.json({
+    id: response.id,
+    currency: response.currency,
+    amount: response.amount,
+  });
+});
