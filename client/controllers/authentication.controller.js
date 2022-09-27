@@ -45,17 +45,17 @@ module.exports.register = catcher(async (req, res, next) => {
     isAdmin,
     uid: identity.uid,
   });
-  // console.log(process.env);
-  // await userSignUp({
-  //   from: process.env.mailEmail,
-  //   to: email,
-  //   subject: 'Vedify Ayurvedics',
-  //   template: 'signUp',
-  //   templateVars: {
-  //     emailAddress: email,
-  //     name: name,
-  //   },
-  // });
+  console.log(process.env.mailEmail);
+  await userSignUp({
+    from: process.env.mailEmail,
+    to: email,
+    subject: 'Vedify Ayurvedics',
+    template: 'signUp',
+    templateVars: {
+      emailAddress: email,
+      name: name,
+    },
+  });
   res.status(200).json({
     status: 'success',
     data: client,

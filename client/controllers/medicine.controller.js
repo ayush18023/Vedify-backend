@@ -17,7 +17,13 @@ module.exports.create = catcher(async (req, res, next) => {
 });
 
 module.exports.read = catcher(async (req, res, next) => {
-  const result = await medicine.read(req.query);
+  // const result = await medicine.read(req.query);
+  if (req.query.disease) {
+    const filter = req.query.disease.split(',');
+    if (filter.length == 1) {
+      result = await Medicine.find({ disease: { $in: filter } });
+    } else result = await Medicine.find({ disease: { $in: filter } });
+  }
   res.status(200).json({
     result,
   });
