@@ -49,8 +49,7 @@ module.exports.register = catcher(async (req, res, next) => {
 });
 
 module.exports.whoami = catcher(async (req, res, next) => {
-  const { authorization } = req.headers || '';
-
+  const  authorization  = String(req.body.authorization);
   const identity = await admin.auth().verifyIdToken(authorization);
 
   if (!identity) return next(new Error('Please signup with firebase.', 401));

@@ -5,13 +5,13 @@ const _Error = require('../../lib/utils/_error');
 
 module.exports.verify = catcher(async (req, res, next) => {
   const { authorization } = req.headers || '';
-
+  console.log(authorization)
   if (!authorization) {
     return next(new _Error('Please login to continue.', 401));
   }
 
   const identity = await admin.auth().verifyIdToken(authorization);
-
+  console.log(identity)
   if (!identity) return next(new _Error('Please login to continue.', 401));
 
   const client = await Client.findOne({

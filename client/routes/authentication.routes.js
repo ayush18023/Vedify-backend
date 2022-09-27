@@ -1,19 +1,16 @@
 const express = require('express');
-const { register } = require('../controllers/authentication.controller');
+const { register, whoami } = require('../controllers/authentication.controller');
 const { verify } = require('../controllers/authorization.controller');
+const admin = require('../../firebase/index');
+const catcher = require('../../lib/utils/catcher');
+const Client = require('../../database/models/client.model');
+const _Error = require('../../lib/utils/_error');
 
 const router = express.Router();
 
 router.post('/register', register); //*  register a new client
 
 //# create a route whoami
-router.post('/whoami', verify, (req, res, next) => {
-  console.log(req.ctx);
-  res.status(200).json({
-    status: 'success',
-    data: req.ctx,
-    message: `Hello, you are ${req.ctx.name}`,
-  });
-});
+router.post('/whoami', whoami);
 
 module.exports = router;
