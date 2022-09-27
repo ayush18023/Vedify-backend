@@ -15,11 +15,13 @@ const {
 const router = express.Router();
 
 router.use(verify);
+router.route('/:id').put(update); // api/v1/schedule/:id
+router.route('/').get(read); // api/v1/schedule/
 router.use(isAdmin);
 // router.use(dummy_verify);
 
-router.route('/').post(create).get(read); // api/v1/schedule
+router.route('/').post(create); // api/v1/schedule
 
-router.route('/:id').delete(remove).get(readById).put(update); // api/v1/schedule/634635687367
+router.route('/:id').delete(remove).get(readById); // api/v1/schedule/634635687367
 
 module.exports = router;

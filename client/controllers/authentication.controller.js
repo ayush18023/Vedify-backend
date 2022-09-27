@@ -1,9 +1,13 @@
 const catcher = require('../../lib/utils/catcher');
 const Client = require('../../database/models/client.model.js');
 const admin = require('../../firebase/index');
+const { userSignUp } = require('../mailing/gmail');
+require('dotenv').config({
+  path: '../.env',
+});
 
 module.exports.register = catcher(async (req, res, next) => {
-  const { name, email, phoneNo, photo } = req.body;
+  const { name, email, phoneNo, photo, isAdmin } = req.body;
   console.log(phoneNo);
   const { authorization } = req.headers || '';
 
@@ -38,9 +42,20 @@ module.exports.register = catcher(async (req, res, next) => {
     email,
     phoneNo,
     photo,
+    isAdmin,
     uid: identity.uid,
   });
-
+  // console.log(process.env);
+  // await userSignUp({
+  //   from: process.env.mailEmail,
+  //   to: email,
+  //   subject: 'Vedify Ayurvedics',
+  //   template: 'signUp',
+  //   templateVars: {
+  //     emailAddress: email,
+  //     name: name,
+  //   },
+  // });
   res.status(200).json({
     status: 'success',
     data: client,
@@ -51,6 +66,7 @@ module.exports.register = catcher(async (req, res, next) => {
 module.exports.whoami = catcher(async (req, res, next) => {
   const  authorization  = String(req.body.authorization);
   const identity = await admin.auth().verifyIdToken(authorization);
+  console.log(identity);
 
   if (!identity) return next(new Error('Please signup with firebase.', 401));
 
