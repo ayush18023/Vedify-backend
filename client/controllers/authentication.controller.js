@@ -77,7 +77,7 @@ module.exports.whoami = catcher(async (req, res, next) => {
   const client = await Client.findOne({
     uid: identity.uid,
   });
-
+  console.log("Client:",client)
   res.status(200).json({
     status: 'success',
     data: client,
