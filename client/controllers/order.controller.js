@@ -17,6 +17,13 @@ module.exports.create = catcher(async (req, res, next) => {
   res.status(201).json(response);
 });
 
+module.exports.readAllOrders = catcher(async (req, res, next) => {
+  const allOrders = await Order.find({});
+  res.status(200).json({
+    status: 'success',
+    data: allOrders,
+  });
+});
 module.exports.read = catcher(async (req, res, next) => {
   const result = await order.read(req.query, req.ctx._id);
 

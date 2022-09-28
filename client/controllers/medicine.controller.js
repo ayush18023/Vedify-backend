@@ -116,16 +116,11 @@ module.exports.addReview = catcher(async (req, res, next) => {
     return next(new _Error('Medicine not found', 404));
   }
   await thisMedicine.review.push(review);
+  thisMedicine.total_stars += review.star;
+  thisMedicine.totalReviews += 1;
+  thisMedicine.avg_rating =
+    thisMedicine.total_stars / thisMedicine.totalReviews;
   thisMedicine.save();
-  console.log();
-  const updatedCurrentRating = await Medicine.findOneAndUpdate(
-    { _id: id },
-    [{ $set: { avg_rating: { $avg: `$review.star` } } }],
-    {
-      new: true,
-      useFindAndModify: true,
-    }
-  );
   res.status(201).json({
     success: true,
     message: `Review added successfully `,

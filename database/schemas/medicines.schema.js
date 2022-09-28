@@ -37,6 +37,14 @@ const medicineSchema = new Schema(
       },
     ],
     avg_rating: { type: Number, default: 4 },
+    total_stars: {
+      type: Number,
+      default: 0,
+    },
+    totalReviews: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

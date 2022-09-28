@@ -34,6 +34,14 @@ const medicineSchema = new Schema(
       type: String,
       required: true,
     },
+    name: {
+      type: String,
+      required: true,
+    },
+    reason: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
