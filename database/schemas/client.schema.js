@@ -23,6 +23,7 @@ const clientSchema = new Schema(
         type: Photo,
       },
     ],
+    uid: { type: String },
   },
   { timestamps: true }
 );
