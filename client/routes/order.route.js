@@ -8,10 +8,11 @@ const {
   remove,
   read,
   readById,
+  razorpay,
 } = require('../controllers/order.controller');
 
 const router = express.Router();
-
+router.use('/razorpay', razorpay);
 router.use(verify);
 // router.use(dummy_verify);
 
