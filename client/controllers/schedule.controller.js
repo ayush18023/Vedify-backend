@@ -70,10 +70,12 @@ module.exports.readById = catcher(async (req, res, next) => {
 
 module.exports.update = catcher(async (req, res, next) => {
   const { id } = req.params;
-  const { isBooked, bookedBy } = req.body;
+  const { isBooked, bookedBy, name, reason } = req.body;
   const updateData = {
     isBooked,
     bookedBy,
+    name,
+    reason,
   };
   const newSched = await Schedule.findOne({ _id: id });
   if (!newSched) {
