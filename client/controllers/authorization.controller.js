@@ -5,7 +5,7 @@ const _Error = require('../../lib/utils/_error');
 
 module.exports.verify = catcher(async (req, res, next) => {
   const { authorization } = req.headers || '';
-  console.log(authorization)
+  console.log("authorization:",req.headers)
   if (!authorization) {
     return next(new _Error('Please login to continue.', 401));
   }

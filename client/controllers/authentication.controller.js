@@ -108,7 +108,7 @@ module.exports.whoami = catcher(async (req, res, next) => {
   console.log(req.body)
   const  authorization  = String(req.body.authorization);
   const identity = await admin.auth().verifyIdToken(authorization);
-  console.log(identity.uid);
+  console.log(authorization);
 
   if (!identity) return next(new Error('Please signup with firebase.', 401));
 

@@ -107,6 +107,7 @@ module.exports.remove = catcher(async (req, res, next) => {
 
 module.exports.addReview = catcher(async (req, res, next) => {
   const { id } = req.params;
+  console.log("id:",id)
   const { client, user_name, experience, feedback, star } = req.body;
   const thisMedicine = await Medicine.findOne({
     _id: id,
