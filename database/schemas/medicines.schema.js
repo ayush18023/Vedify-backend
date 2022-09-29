@@ -27,7 +27,6 @@ const medicineSchema = new Schema(
           ref: 'client',
         },
         user_name: String,
-        experience: String,
         feedback: String,
         star: { type: Number, required: true },
         date: {
