@@ -2,7 +2,7 @@ const { Schema } = require('mongoose');
 const { Photo } = require('../type');
 
 var d = new Date();
-d.setDate(d.getDate() + 1);
+d.setDate(d.getDate() + 3);
 
 const medicineSchema = new Schema(
   {
@@ -36,11 +36,9 @@ const medicineSchema = new Schema(
     },
     name: {
       type: String,
-      required: true,
     },
     reason: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }

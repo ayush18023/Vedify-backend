@@ -33,9 +33,9 @@ module.exports.createAutomatic = catcher(async (req, res, next) => {
 });
 
 module.exports.create = catcher(async (req, res, next) => {
-  const { timeSlot } = req.body;
+  const { timeSlot, name, reason } = req.body;
   id = req.ctx._id;
-  const response = await scheduler.create({ timeSlot }, id);
+  const response = await scheduler.create({ timeSlot, name, reason }, id);
   res.status(201).json(response);
 });
 
