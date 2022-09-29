@@ -87,16 +87,16 @@ module.exports.register = catcher(async (req, res, next) => {
   });
 
   console.log(process.env.mailEmail);
-  // await userSignUp({
-  //   from: process.env.mailEmail,
-  //   to: email,
-  //   subject: 'Vedify Ayurvedics',
-  //   template: 'signUp',
-  //   templateVars: {
-  //     emailAddress: email,
-  //     name: name,
-  //   },
-  // });
+  await userSignUp({
+    from: process.env.mailEmail,
+    to: email,
+    subject: 'Vedify Ayurvedics',
+    template: 'signUp',
+    templateVars: {
+      emailAddress: email,
+      name: name,
+    },
+  });
   res.status(200).json({
     status: 'success',
     data: client,
