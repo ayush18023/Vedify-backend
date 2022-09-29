@@ -1,10 +1,14 @@
 const express = require('express');
-const { register } = require('../controllers/authentication.controller');
+const {
+  register,
+  googleLogin,
+} = require('../controllers/authentication.controller');
 const { verify } = require('../controllers/authorization.controller');
 
 const router = express.Router();
 
 router.post('/register', register); //*  register a new client
+router.post('/googleLogin', googleLogin);
 
 //# create a route whoami
 router.post('/whoami', verify, (req, res, next) => {

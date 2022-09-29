@@ -6,19 +6,58 @@ require('dotenv').config({
   path: '../.env',
 });
 
+module.exports.googleLogin = catcher(async (req, res, next) => {
+  let client;
+  const { authorization } = req.headers || '';
+  const identity = await admin.auth().verifyIdToken(authorization);
+
+  if (!identity) {
+    await admin.auth().updateUser(identity.uid, {
+      displayName: identity.displayName,
+      photoURL:
+        identity.photoURL ||
+        'https://cdn-icons.flaticon.com/png/512/2202/premium/2202112.png?token=exp=1659617314~hmac=f7cfe60919c3726ee8905b15a2790c8f',
+    });
+
+    await admin.auth().setCustomUserClaims(identity.uid, {
+      type: 'CLIENT',
+    });
+    client = await Client.create({
+      name: identity.displayName,
+      email: identity.email,
+      photo: identity.photoURL,
+      uid: identity.uid,
+    });
+  } else {
+    await admin.auth().setCustomUserClaims(identity.uid, {
+      type: 'CLIENT',
+    });
+
+    client = await Client.findOne({
+      uid: identity.uid,
+    });
+  }
+  res.status(200).json({
+    status: 'success',
+    data: client,
+    message: 'Client registered successfully',
+  });
+});
+
 module.exports.register = catcher(async (req, res, next) => {
   const { name, email, phoneNo, photo, isAdmin } = req.body;
   console.log(phoneNo);
   const { authorization } = req.headers || '';
 
   const identity = await admin.auth().verifyIdToken(authorization);
+  console.log(identity);
 
   if (!identity)
     return next(
       new Error('Please signup in firebase before registration.', 401)
     );
   // console.log('+91' + phone);
-  phoneNo == undefined
+  phoneNo !== undefined
     ? await admin.auth().updateUser(identity.uid, {
         displayName: name,
         phoneNumber: phoneNo,
