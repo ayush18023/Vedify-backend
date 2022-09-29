@@ -2,7 +2,7 @@ const { Schema } = require('mongoose');
 const { Photo } = require('../type');
 
 var d = new Date();
-d.setDate(d.getDate() + 2);
+d.setDate(d.getDate() + 1);
 
 const medicineSchema = new Schema(
   {

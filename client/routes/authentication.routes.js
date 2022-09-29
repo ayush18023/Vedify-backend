@@ -1,5 +1,8 @@
 const express = require('express');
-const { register, whoami } = require('../controllers/authentication.controller');
+const {
+  register,
+  googleLogin,
+} = require('../controllers/authentication.controller');
 const { verify } = require('../controllers/authorization.controller');
 const admin = require('../../firebase/index');
 const catcher = require('../../lib/utils/catcher');
@@ -9,6 +12,7 @@ const _Error = require('../../lib/utils/_error');
 const router = express.Router();
 
 router.post('/register', register); //*  register a new client
+router.post('/googleLogin', googleLogin);
 
 //# create a route whoami
 router.post('/whoami', whoami);

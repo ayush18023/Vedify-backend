@@ -17,7 +17,7 @@ module.exports.create = catcher(async (req, res, next) => {
 });
 
 module.exports.read = catcher(async (req, res, next) => {
-  const result = await medicine.read(req.query);
+  let result = await medicine.read(req.query);
   if (req.query.disease) {
     const filter = req.query.disease.split(',');
     if (filter.length == 1) {
